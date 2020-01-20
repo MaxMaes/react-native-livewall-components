@@ -1,0 +1,42 @@
+{
+  "name": "react-native-livewall-components",
+  "title": "React Native Livewall Components",
+  "version": "1.0.0",
+  "description": "TODO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github_account/react-native-livewall-components.git",
+    "baseUrl": "https://github.com/github_account/react-native-livewall-components"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "yourname@email.com"
+  },
+  "license": "MIT",
+  "licenseFilename": "LICENSE",
+  "readmeFilename": "README.md",
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-native": ">=0.61.5 <1.0.x"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/runtime": "^7.7.4",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "@types/react-native": "^0.60.23",
+    "@types/react-native-video": "^3.1.5",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.7.1",
+    "jest": "^24.9.0",
+    "metro-react-native-babel-preset": "^0.57.0",
+    "react-test-renderer": "16.9.0",
+    "typescript": "^3.7.2"
+  }
+}
