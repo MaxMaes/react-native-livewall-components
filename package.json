@@ -3,7 +3,7 @@
   "title": "React Native Livewall Components",
   "version": "1.0.0",
   "description": "TODO",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -31,7 +31,6 @@
     "@babel/runtime": "^7.7.4",
     "@react-native-community/eslint-config": "^0.0.5",
     "@types/react-native": "^0.60.23",
-    "@types/react-native-video": "^3.1.5",
     "babel-jest": "^24.9.0",
     "eslint": "^6.7.1",
     "jest": "^24.9.0",
