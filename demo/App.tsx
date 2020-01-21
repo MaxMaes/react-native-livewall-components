@@ -18,9 +18,18 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Card, Touchable, Divider} from 'react-native-livewall-components';
+import {
+  Card,
+  Touchable,
+  Divider,
+  TextInput,
+} from 'react-native-livewall-components';
 
 export default class App extends Component {
+  state = {
+    textInputText: '',
+  };
+
   render() {
     return (
       <>
@@ -47,6 +56,33 @@ export default class App extends Component {
 
               <Card style={{height: 100, alignItems: 'center'}}>
                 <Divider orientation="vertical" />
+              </Card>
+
+              <Divider style={{marginTop: 16, marginBottom: 16}} />
+
+              <Card>
+                <Text>{this.state.textInputText}</Text>
+                <TextInput
+                  placeholder="test"
+                  value={this.state.textInputText}
+                  onChangeText={text => this.setState({textInputText: text})}
+                />
+                <TextInput
+                  placeholder="test"
+                  value={this.state.textInputText}
+                  placeholderTextColor="pink"
+                  activePlaceholderTextColor="red"
+                  onChangeText={text => this.setState({textInputText: text})}
+                />
+                <TextInput
+                  placeholder="test"
+                  value={this.state.textInputText}
+                  placeholderTextColor="pink"
+                  activePlaceholderTextColor="red"
+                  onChangeText={text => this.setState({textInputText: text})}
+                  onFocus={() => this.setState({textInputText: 'focussed'})}
+                  onBlur={() => this.setState({textInputText: 'blurred me'})}
+                />
               </Card>
             </View>
           </ScrollView>
