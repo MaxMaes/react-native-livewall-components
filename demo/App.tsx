@@ -18,21 +18,26 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Touchable} from 'react-native-livewall-components';
+import {Card, Touchable} from 'react-native-livewall-components';
 
 export default class App extends Component {
   render() {
     return (
       <>
         <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
+        <SafeAreaView style={{flex: 1}}>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
+            contentContainerStyle={{flex: 1}}
             style={styles.scrollView}>
             <View style={styles.body}>
               <Touchable onPress={() => Alert.alert('Press!')}>
                 <Text>PRESS ME</Text>
               </Touchable>
+
+              <Card style={{marginTop: 16}}>
+                <Text>Some content in a card with default shadow</Text>
+              </Card>
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -44,13 +49,17 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
+    flex: 1,
   },
   engine: {
     position: 'absolute',
     right: 0,
   },
   body: {
-    backgroundColor: Colors.white,
+    flex: 1,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: '#EEEEEE',
   },
   sectionContainer: {
     marginTop: 32,
