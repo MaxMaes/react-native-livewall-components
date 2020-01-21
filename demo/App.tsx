@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Card, Touchable} from 'react-native-livewall-components';
+import {Card, Touchable, Divider} from 'react-native-livewall-components';
 
 export default class App extends Component {
   render() {
@@ -31,12 +31,22 @@ export default class App extends Component {
             contentContainerStyle={{flex: 1}}
             style={styles.scrollView}>
             <View style={styles.body}>
-              <Touchable onPress={() => Alert.alert('Press!')}>
-                <Text>PRESS ME</Text>
-              </Touchable>
+              <Card>
+                <Touchable onPress={() => Alert.alert('Press!')}>
+                  <Text>TOUCHABLE COMPONENT</Text>
+                </Touchable>
+              </Card>
 
-              <Card style={{marginTop: 16}}>
+              <Divider style={{marginTop: 16, marginBottom: 16}} />
+
+              <Card>
                 <Text>Some content in a card with default shadow</Text>
+              </Card>
+
+              <Divider style={{marginTop: 16, marginBottom: 16}} />
+
+              <Card style={{height: 100, alignItems: 'center'}}>
+                <Divider orientation="vertical" />
               </Card>
             </View>
           </ScrollView>
