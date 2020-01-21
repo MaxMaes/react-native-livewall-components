@@ -41,13 +41,3 @@ target 'demo' do
 
   use_native_modules!
 end
-
-target 'demo-tvOS' do
-  # Pods for demo-tvOS
-
-  target 'demo-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end
