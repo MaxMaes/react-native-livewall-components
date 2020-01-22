@@ -1,23 +1,20 @@
 import React, {ReactNode} from 'react';
 import {PureComponent} from 'react';
 import {
-  RippleBackgroundPropType,
   TouchableOpacity,
   ViewStyle,
   StyleProp,
 } from 'react-native';
 
-type Props = {
-  containerStyle?: StyleProp<ViewStyle>;
-  style?: StyleProp<ViewStyle>;
-  useForeground?: boolean;
+export type TouchableIOSProps = {
   children?: ReactNode;
-  background?: RippleBackgroundPropType;
+  containerStyle?: StyleProp<ViewStyle>;
   disabled: boolean;
+  style?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };
 
-export default class Touchable extends PureComponent<Props> {
+export default class TouchableIOS extends PureComponent<TouchableIOSProps> {
   static defaultProps = {
     containerStyle: {},
     style: {},

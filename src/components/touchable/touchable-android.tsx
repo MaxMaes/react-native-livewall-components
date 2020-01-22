@@ -8,17 +8,19 @@ import {
   StyleProp,
 } from 'react-native';
 
-interface Props {
-  containerStyle?: StyleProp<ViewStyle>;
-  style?: StyleProp<ViewStyle>;
-  useForeground?: boolean;
-  children?: ReactNode;
+export type TouchableAndroidProps = {
+  /** ANDROID ONLY */
   background?: RippleBackgroundPropType;
+  children?: ReactNode;
+  containerStyle?: StyleProp<ViewStyle>;
   disabled: boolean;
   onPress?: () => void;
+  style?: StyleProp<ViewStyle>;
+  /** ANDROID ONLY */
+  useForeground?: boolean;
 }
 
-export default class Touchable extends PureComponent<Props> {
+export default class TouchableAndroid extends PureComponent<TouchableAndroidProps> {
   static defaultProps = {
     containerStyle: {},
     style: {},
