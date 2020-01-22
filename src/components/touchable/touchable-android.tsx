@@ -13,7 +13,7 @@ export type TouchableAndroidProps = {
   background?: RippleBackgroundPropType;
   children?: ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
-  disabled: boolean;
+  disabled?: boolean;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   /** ANDROID ONLY */

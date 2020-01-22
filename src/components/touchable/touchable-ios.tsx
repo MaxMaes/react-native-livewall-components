@@ -9,7 +9,7 @@ import {
 export type TouchableIOSProps = {
   children?: ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
-  disabled: boolean;
+  disabled?: boolean;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };
