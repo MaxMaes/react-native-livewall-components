@@ -13,7 +13,6 @@ import {
   ScrollView,
   View,
   StatusBar,
-  Alert,
   Text,
 } from 'react-native';
 
@@ -74,7 +73,7 @@ export default class App extends Component<Props, State> {
             <View style={styles.body}>
               <Card>
                 <Touchable onPress={() => this.pagerRef.current.nextPage()}>
-                  <Text>Next Page</Text>
+                  <Text>Next Page Touchable component</Text>
                 </Touchable>
               </Card>
 
@@ -122,8 +121,6 @@ export default class App extends Component<Props, State> {
               <Pager
                 ref={this.pagerRef}
                 pageWidth={300}
-                containerStyle={{}}
-                style={{flex: 1, height: 500}}
                 onPageChanged={page => this.setState({currentPage: page})}>
                 {pages}
               </Pager>
