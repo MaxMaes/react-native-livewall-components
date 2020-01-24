@@ -30,12 +30,17 @@ export class Pager extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.scrollViewRef = React.createRef();
-    const pages = React.Children.count.length;
+    const pages = React.Children.count(props.children);
     this.state = {currentPage: 0, numberOfPages: pages};
   }
 
   updatePage = (page: number) => {
     const {onPageChanged} = this.props;
+    const {numberOfPages} = this.state;
+    //Protect from under- and overflow.
+    if (page < 0 || page >= numberOfPages) {
+      return;
+    }
     this.setState({currentPage: page});
     if (onPageChanged) {
       onPageChanged(page);
@@ -61,8 +66,7 @@ export class Pager extends PureComponent<Props, State> {
       const pageSize = pageWidth ? pageWidth : Dimensions.get('window').width;
       const nextPage = currentPage + 1;
       //Calculate the new x position based on the page size and new page.
-      const x =
-        currentPage > 0 ? (pageSize / currentPage) * nextPage : pageSize;
+      const x = currentPage > 0 ? pageSize * nextPage : pageSize;
       this.scrollViewRef.current.scrollTo({x, y: 0});
       this.updatePage(nextPage);
     }
