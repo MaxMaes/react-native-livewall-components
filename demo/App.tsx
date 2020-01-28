@@ -59,7 +59,11 @@ export default class App extends Component<Props, State> {
         marginHorizontal: 24,
         width: windowWidth - 48 - 32,
       }}>
-      <Text>{`I am page number ${index}`}</Text>
+      <Text
+        style={{
+          color: 'white',
+          fontSize: 16,
+        }}>{`I am page number ${index}`}</Text>
     </View>
   );
 
@@ -74,22 +78,10 @@ export default class App extends Component<Props, State> {
             contentContainerStyle={{flex: 1}}
             style={styles.scrollView}>
             <View style={styles.body}>
-              <Card>
-                <Touchable onPress={() => this.pagerRef.current?.changePage(1)}>
-                  <Text>Next Page Touchable component</Text>
-                </Touchable>
-              </Card>
-
               <Divider style={{marginTop: 16, marginBottom: 16}} />
 
               <Card>
                 <Text>Some content in a card with default shadow</Text>
-              </Card>
-
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
-
-              <Card style={{height: 100, alignItems: 'center'}}>
-                <Divider orientation="vertical" />
               </Card>
 
               <Divider style={{marginTop: 16, marginBottom: 16}} />
@@ -135,6 +127,23 @@ export default class App extends Component<Props, State> {
                 pages={pages.length}
                 currentPage={currentPage}
               />
+
+              <Card
+                style={{
+                  height: 100,
+                  alignItems: 'center',
+                  justifyContent: 'space-around',
+                  flexDirection: 'row',
+                }}>
+                <Touchable
+                  onPress={() => this.pagerRef.current?.changePage(-1)}>
+                  <Text>Previous Page</Text>
+                </Touchable>
+                <Divider orientation="vertical" />
+                <Touchable onPress={() => this.pagerRef.current?.changePage(1)}>
+                  <Text>Next Page</Text>
+                </Touchable>
+              </Card>
             </View>
           </ScrollView>
         </SafeAreaView>
