@@ -33,6 +33,7 @@ type State = {
   textInputText: string;
   pages: ReactNode[];
   currentPage: number;
+  buttonDisabled: boolean;
 };
 
 const windowWidth = Dimensions.get('window').width;
@@ -46,7 +47,12 @@ export default class App extends Component<Props, State> {
       pagerPages.push(this.renderPage(idx + 1));
     }
     this.pagerRef = React.createRef();
-    this.state = {textInputText: '', pages: pagerPages, currentPage: 0};
+    this.state = {
+      textInputText: '',
+      pages: pagerPages,
+      currentPage: 0,
+      buttonDisabled: false,
+    };
   }
 
   renderPage = (index: number): ReactNode => (
@@ -68,12 +74,13 @@ export default class App extends Component<Props, State> {
   );
 
   render() {
-    const {textInputText, pages, currentPage} = this.state;
+    const {textInputText, pages, currentPage, buttonDisabled} = this.state;
     return (
       <>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView style={{flex: 1}}>
           <ScrollView
+            bounces={false}
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={{flexGrow: 1}}
             style={styles.scrollView}>
@@ -145,6 +152,25 @@ export default class App extends Component<Props, State> {
                   <Text>Next Page</Text>
                 </Touchable>
               </Card>
+
+              <Divider style={styles.divider} />
+
+              <Touchable
+                disabled={buttonDisabled}
+                style={{
+                  height: 40,
+                  backgroundColor: 'green',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                disabledStyle={{backgroundColor: 'red'}}
+                disabledContainerStyle={{borderColor: 'green'}}
+                containerStyle={{borderWidth: 2, borderColor: 'red'}}
+                onPress={() =>
+                  this.setState({buttonDisabled: !buttonDisabled})
+                }>
+                <Text>{buttonDisabled ? 'Disabled' : 'Enabled'}</Text>
+              </Touchable>
             </View>
           </ScrollView>
         </SafeAreaView>
