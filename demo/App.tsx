@@ -14,6 +14,7 @@ import {
   View,
   StatusBar,
   Text,
+  Dimensions,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -34,6 +35,7 @@ type State = {
   currentPage: number;
 };
 
+const windowWidth = Dimensions.get('window').width;
 export default class App extends Component<Props, State> {
   pagerRef: RefObject<Pager>;
 
@@ -54,7 +56,8 @@ export default class App extends Component<Props, State> {
         backgroundColor: 'blue',
         alignItems: 'center',
         justifyContent: 'center',
-        width: 300,
+        marginHorizontal: 24,
+        width: windowWidth - 48 - 32,
       }}>
       <Text>{`I am page number ${index}`}</Text>
     </View>
@@ -72,7 +75,7 @@ export default class App extends Component<Props, State> {
             style={styles.scrollView}>
             <View style={styles.body}>
               <Card>
-                <Touchable onPress={() => this.pagerRef.current.nextPage()}>
+                <Touchable onPress={() => this.pagerRef.current?.changePage(1)}>
                   <Text>Next Page Touchable component</Text>
                 </Touchable>
               </Card>
@@ -120,7 +123,10 @@ export default class App extends Component<Props, State> {
 
               <Pager
                 ref={this.pagerRef}
-                pageWidth={300}
+                pageWidth={windowWidth - 32}
+                containerStyle={{
+                  backgroundColor: 'red',
+                }}
                 onPageChanged={page => this.setState({currentPage: page})}>
                 {pages}
               </Pager>
