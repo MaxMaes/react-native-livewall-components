@@ -75,16 +75,16 @@ export default class App extends Component<Props, State> {
         <SafeAreaView style={{flex: 1}}>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1}}
             style={styles.scrollView}>
             <View style={styles.body}>
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
+              <Divider style={styles.divider} />
 
               <Card>
                 <Text>Some content in a card with default shadow</Text>
               </Card>
 
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
+              <Divider style={styles.divider} />
 
               <Card>
                 <Text>{this.state.textInputText}</Text>
@@ -111,13 +111,14 @@ export default class App extends Component<Props, State> {
                 />
               </Card>
 
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
+              <Divider style={styles.divider} />
 
               <Pager
                 ref={this.pagerRef}
                 pageWidth={windowWidth - 32}
                 containerStyle={{
                   backgroundColor: 'red',
+                  height: 500,
                 }}
                 onPageChanged={page => this.setState({currentPage: page})}>
                 {pages}
@@ -157,40 +158,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
     flex: 1,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
   body: {
     flex: 1,
     paddingVertical: 16,
     paddingHorizontal: 16,
     backgroundColor: '#EEEEEE',
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  divider: {
+    marginVertical: 16,
   },
 });
