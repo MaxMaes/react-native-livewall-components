@@ -51,7 +51,7 @@ export class Pager extends PureComponent<Props, State> {
     const {currentPage} = this.state;
     const {layoutMeasurement, contentOffset} = event.nativeEvent;
     //Calculate the page using the x offset and the page width.
-    const page = Math.ceil(contentOffset.x / layoutMeasurement.width);
+    const page = Math.round(contentOffset.x / layoutMeasurement.width);
     if (page !== currentPage) {
       this.updatePage(page);
     }
@@ -66,9 +66,8 @@ export class Pager extends PureComponent<Props, State> {
       const pageSize = pageWidth ? pageWidth : Dimensions.get('window').width;
       const nextPage = currentPage + 1;
       //Calculate the new x position based on the page size and new page.
-      const x = currentPage > 0 ? pageSize * nextPage : pageSize;
+      const x = page > 0 ? pageSize * page : 0;
       this.scrollViewRef.current.scrollTo({x, y: 0});
-      this.updatePage(nextPage);
     }
   };
 
