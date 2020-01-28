@@ -57,18 +57,32 @@ export class Pager extends PureComponent<Props, State> {
     }
   };
 
-  nextPage = () => {
+  setPage = (page: number) => {
     const {pageWidth} = this.props;
-    const {currentPage, numberOfPages} = this.state;
+    const {numberOfPages} = this.state;
     const lastPage = numberOfPages - 1;
-    if (currentPage <= lastPage && this.scrollViewRef.current) {
+    if (page >= 0 && page <= lastPage && this.scrollViewRef.current) {
       //TODO: Check fullscreen usage when pager is inset with margin/padding.
       const pageSize = pageWidth ? pageWidth : Dimensions.get('window').width;
-      const nextPage = currentPage + 1;
       //Calculate the new x position based on the page size and new page.
       const x = page > 0 ? pageSize * page : 0;
       this.scrollViewRef.current.scrollTo({x, y: 0});
     }
+  };
+
+  changePage = (change: number) => {
+    const {currentPage} = this.state;
+    this.setPage(currentPage + change);
+  };
+
+  /**
+   * @deprecated Move to the changePage or setPage method(s) to change pages.
+   */
+  nextPage = () => {
+    console.warn(
+      'This method is deprecated, please use the changePage or setPage method(s) to change pages.'
+    );
+    this.changePage(1);
   };
 
   render() {
