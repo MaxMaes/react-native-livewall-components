@@ -6,15 +6,15 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React, {Component, ReactNode, RefObject} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   StatusBar,
-  Alert,
   Text,
+  Dimensions,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -23,60 +23,93 @@ import {
   Touchable,
   Divider,
   TextInput,
+  PageControl,
+  Pager,
 } from 'react-native-livewall-components';
 
-export default class App extends Component {
-  state = {
-    textInputText: '',
-  };
+type Props = {};
+
+type State = {
+  textInputText: string;
+  pages: ReactNode[];
+  currentPage: number;
+  buttonDisabled: boolean;
+};
+
+const windowWidth = Dimensions.get('window').width;
+export default class App extends Component<Props, State> {
+  pagerRef: RefObject<Pager>;
+
+  constructor(props: Props) {
+    super(props);
+    let pagerPages = [];
+    for (var idx = 0; idx < 5; idx++) {
+      pagerPages.push(this.renderPage(idx + 1));
+    }
+    this.pagerRef = React.createRef();
+    this.state = {
+      textInputText: '',
+      pages: pagerPages,
+      currentPage: 0,
+      buttonDisabled: false,
+    };
+  }
+
+  renderPage = (index: number): ReactNode => (
+    <View
+      key={index.toString()}
+      style={{
+        backgroundColor: 'blue',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 24,
+        width: windowWidth - 48 - 32,
+      }}>
+      <Text
+        style={{
+          color: 'white',
+          fontSize: 16,
+        }}>{`I am page number ${index}`}</Text>
+    </View>
+  );
 
   render() {
+    const {textInputText, pages, currentPage, buttonDisabled} = this.state;
     return (
       <>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView style={{flex: 1}}>
           <ScrollView
+            bounces={false}
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1}}
             style={styles.scrollView}>
             <View style={styles.body}>
-              <Card>
-                <Touchable onPress={() => Alert.alert('Press!')}>
-                  <Text>TOUCHABLE COMPONENT</Text>
-                </Touchable>
-              </Card>
-
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
+              <Divider style={styles.divider} />
 
               <Card>
                 <Text>Some content in a card with default shadow</Text>
               </Card>
 
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
-
-              <Card style={{height: 100, alignItems: 'center'}}>
-                <Divider orientation="vertical" />
-              </Card>
-
-              <Divider style={{marginTop: 16, marginBottom: 16}} />
+              <Divider style={styles.divider} />
 
               <Card>
                 <Text>{this.state.textInputText}</Text>
                 <TextInput
                   placeholder="test"
-                  value={this.state.textInputText}
+                  value={textInputText}
                   onChangeText={text => this.setState({textInputText: text})}
                 />
                 <TextInput
                   placeholder="test"
-                  value={this.state.textInputText}
+                  value={textInputText}
                   placeholderTextColor="pink"
                   activePlaceholderTextColor="red"
                   onChangeText={text => this.setState({textInputText: text})}
                 />
                 <TextInput
                   placeholder="test"
-                  value={this.state.textInputText}
+                  value={textInputText}
                   placeholderTextColor="pink"
                   activePlaceholderTextColor="red"
                   onChangeText={text => this.setState({textInputText: text})}
@@ -84,6 +117,60 @@ export default class App extends Component {
                   onBlur={() => this.setState({textInputText: 'blurred me'})}
                 />
               </Card>
+
+              <Divider style={styles.divider} />
+
+              <Pager
+                ref={this.pagerRef}
+                pageWidth={windowWidth - 32}
+                containerStyle={{
+                  backgroundColor: 'red',
+                  height: 500,
+                }}
+                onPageChanged={page => this.setState({currentPage: page})}>
+                {pages}
+              </Pager>
+              <PageControl
+                style={{height: 50}}
+                pages={pages.length}
+                currentPage={currentPage}
+              />
+
+              <Card
+                style={{
+                  height: 100,
+                  alignItems: 'center',
+                  justifyContent: 'space-around',
+                  flexDirection: 'row',
+                }}>
+                <Touchable
+                  onPress={() => this.pagerRef.current?.changePage(-1)}>
+                  <Text>Previous Page</Text>
+                </Touchable>
+                <Divider orientation="vertical" />
+                <Touchable onPress={() => this.pagerRef.current?.changePage(1)}>
+                  <Text>Next Page</Text>
+                </Touchable>
+              </Card>
+
+              <Divider style={styles.divider} />
+
+              <Touchable
+                disabled={buttonDisabled}
+                style={{
+                  height: 40,
+                  backgroundColor: 'green',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                disabledStyle={{backgroundColor: 'red'}}
+                disabledContainerStyle={{borderColor: 'green'}}
+                containerStyle={{borderWidth: 2, borderColor: 'red'}}
+                onPress={() =>
+                  this.setState({buttonDisabled: !buttonDisabled})
+                }>
+                <Text>{buttonDisabled ? 'Disabled' : 'Enabled'}</Text>
+              </Touchable>
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -97,40 +184,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
     flex: 1,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
   body: {
     flex: 1,
     paddingVertical: 16,
     paddingHorizontal: 16,
     backgroundColor: '#EEEEEE',
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  divider: {
+    marginVertical: 16,
   },
 });

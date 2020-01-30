@@ -1,7 +1,7 @@
 {
   "name": "react-native-livewall-components",
   "title": "React Native Livewall Components",
-  "version": "0.1.0-alpha1",
+  "version": "0.2.1",
   "description": "TODO",
   "main": "index.ts",
   "scripts": {

@@ -13,14 +13,18 @@ export type TouchableAndroidProps = {
   background?: RippleBackgroundPropType;
   children?: ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
-  disabled: boolean;
+  disabled?: boolean;
+  disabledContainerStyle?: StyleProp<ViewStyle>;
+  disabledStyle?: StyleProp<ViewStyle>;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   /** ANDROID ONLY */
   useForeground?: boolean;
-}
+};
 
-export default class TouchableAndroid extends PureComponent<TouchableAndroidProps> {
+export default class TouchableAndroid extends PureComponent<
+  TouchableAndroidProps
+> {
   static defaultProps = {
     containerStyle: {},
     style: {},
@@ -39,15 +43,21 @@ export default class TouchableAndroid extends PureComponent<TouchableAndroidProp
       background,
       onPress,
       disabled,
+      disabledContainerStyle,
+      disabledStyle,
     } = this.props;
+    const container = disabled
+      ? [containerStyle, disabledContainerStyle]
+      : containerStyle;
+    const innerStyle = disabled ? [style, disabledStyle] : style;
     return (
-      <View style={containerStyle}>
+      <View style={container}>
         <TouchableNativeFeedback
           useForeground={useForeground}
           background={background}
           onPress={onPress}
           disabled={disabled}>
-          <View style={style}>{children}</View>
+          <View style={innerStyle}>{children}</View>
         </TouchableNativeFeedback>
       </View>
     );
