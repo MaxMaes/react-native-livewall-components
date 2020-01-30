@@ -66,25 +66,30 @@ export class TextInput extends Component<Props> {
         {icon && (
           <Image
             source={icon}
-            style={[styles.icon, iconStyle, active ? activeIconStyle : undefined]}
+            style={[
+              styles.icon,
+              iconStyle,
+              active ? activeIconStyle : undefined,
+            ]}
           />
         )}
         <RNTextInput
           ref={this.textField}
-          style={[
-            styles.inputStyle,
-            style,
-            active ? activeStyle: undefined,
-          ]}
-          placeholderTextColor={active ? (activePlaceholderTextColor ? activePlaceholderTextColor : placeholderTextColor) : placeholderTextColor}
-          onFocus={(e) => {
+          style={[styles.inputStyle, style, active ? activeStyle : undefined]}
+          placeholderTextColor={
+            active
+              ? activePlaceholderTextColor
+                ? activePlaceholderTextColor
+                : placeholderTextColor
+              : placeholderTextColor
+          }
+          onFocus={e => {
             this.setState({active: true});
-              onFocus(e);
-          }
-          }
-          onBlur={(e) => {
+            onFocus(e);
+          }}
+          onBlur={e => {
             this.setState({active: false});
-              onBlur(e);
+            onBlur(e);
           }}
           {...propsToPass}
         />
@@ -107,7 +112,6 @@ const styles: Styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 24,
   },
   inputStyle: {
     flex: 1,
