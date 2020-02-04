@@ -94,7 +94,7 @@ export default class App extends Component<Props, State> {
               <Divider style={styles.divider} />
 
               <Card>
-                <Text>{this.state.textInputText}</Text>
+                <Text>{textInputText}</Text>
                 <TextInput
                   placeholder="test"
                   value={textInputText}
@@ -103,8 +103,9 @@ export default class App extends Component<Props, State> {
                 <TextInput
                   placeholder="test"
                   value={textInputText}
-                  placeholderTextColor="pink"
-                  activePlaceholderTextColor="red"
+                  valid={textInputText === 'Test'}
+                  errorStyle={{borderBottomColor: 'red', borderBottomWidth: 1}}
+                  errorComponent={<Text>The specified text is not valid!</Text>}
                   onChangeText={text => this.setState({textInputText: text})}
                 />
                 <TextInput

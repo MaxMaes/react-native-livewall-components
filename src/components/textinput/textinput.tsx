@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import {
   Image,
   View,
@@ -17,10 +17,12 @@ interface Props extends TextInputProps {
   activeStyle?: StyleProp<TextStyle>;
   activeIconStyle?: StyleProp<ImageStyle>;
   activePlaceholderTextColor?: string;
-
   containerStyle?: StyleProp<ViewStyle>;
+  errorComponent?: ReactNode;
+  errorStyle?: StyleProp<ViewStyle>;
   icon?: ImageSourcePropType;
   iconStyle?: StyleProp<ImageStyle>;
+  valid?: boolean;
 }
 
 export class TextInput extends Component<Props> {
@@ -41,12 +43,15 @@ export class TextInput extends Component<Props> {
       activeStyle,
       activePlaceholderTextColor,
       containerStyle,
+      errorComponent,
+      errorStyle,
       icon,
       iconStyle,
       placeholderTextColor,
       style,
       onFocus = () => {},
       onBlur = () => {},
+      valid = true,
     } = this.props;
     const {active} = this.state;
 
@@ -57,37 +62,50 @@ export class TextInput extends Component<Props> {
     delete propsToPass.onBlur;
 
     return (
-      <View
-        style={[
-          styles.containerStyle,
-          containerStyle,
-          active ? activeContainerStyle : undefined,
-        ]}>
-        {icon && (
-          <Image
-            source={icon}
-            style={[styles.icon, iconStyle, active ? activeIconStyle : undefined]}
-          />
-        )}
-        <RNTextInput
-          ref={this.textField}
+      <View>
+        <View
           style={[
-            styles.inputStyle,
-            style,
-            active ? activeStyle: undefined,
-          ]}
-          placeholderTextColor={active ? (activePlaceholderTextColor ? activePlaceholderTextColor : placeholderTextColor) : placeholderTextColor}
-          onFocus={(e) => {
-            this.setState({active: true});
+            styles.containerStyle,
+            containerStyle,
+            active ? activeContainerStyle : undefined,
+          ]}>
+          {icon && (
+            <Image
+              source={icon}
+              style={[
+                styles.icon,
+                iconStyle,
+                active ? activeIconStyle : undefined,
+              ]}
+            />
+          )}
+          <RNTextInput
+            ref={this.textField}
+            style={[
+              styles.inputStyle,
+              style,
+              active ? activeStyle : undefined,
+              valid ? undefined : errorStyle,
+            ]}
+            placeholderTextColor={
+              active
+                ? activePlaceholderTextColor
+                  ? activePlaceholderTextColor
+                  : placeholderTextColor
+                : placeholderTextColor
+            }
+            onFocus={e => {
+              this.setState({active: true});
               onFocus(e);
-          }
-          }
-          onBlur={(e) => {
-            this.setState({active: false});
+            }}
+            onBlur={e => {
+              this.setState({active: false});
               onBlur(e);
-          }}
-          {...propsToPass}
-        />
+            }}
+            {...propsToPass}
+          />
+        </View>
+        <View>{!valid && errorComponent}</View>
       </View>
     );
   }
@@ -107,7 +125,6 @@ const styles: Styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 24,
   },
   inputStyle: {
     flex: 1,
