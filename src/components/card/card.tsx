@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import {View, StyleSheet, StyleProp, ViewStyle, ViewProps} from 'react-native';
 
-interface Props {
+type Props =  {
   style?: StyleProp<ViewStyle>;
-}
+} & ViewProps
 
 export class Card extends Component<Props> {
   render() {
     const {children, style} = this.props;
-    return <View style={[styles.card, style]}>{children}</View>;
+    const propsToPass: ViewProps = {...this.props};
+    delete propsToPass.style;
+
+    return <View style={[styles.card, style]} {...propsToPass}>{children}</View>;
   }
 }
 
