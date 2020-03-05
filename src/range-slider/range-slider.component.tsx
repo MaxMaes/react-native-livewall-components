@@ -47,6 +47,7 @@ export default class RangeSlider extends PureComponent<Props, State> {
   markerWidth: number;
   maxX: number;
   minX: number;
+  absoluteLeft: number;
   panResponder: PanResponderInstance;
   trackWidth: number;
 
@@ -56,6 +57,7 @@ export default class RangeSlider extends PureComponent<Props, State> {
     this.currentMarker = 'min';
     this.minX = 0;
     this.maxX = 0;
+    this.absoluteLeft = 0;
     this.markerWidth = 0;
     this.trackWidth = 0;
     this.panResponder = PanResponder.create({
@@ -83,9 +85,10 @@ export default class RangeSlider extends PureComponent<Props, State> {
   touchesStarted = async (event: GestureResponderEvent) => {
     const {maxPosition, minPosition} = this.state;
     const {pageX} = event.nativeEvent;
+    const relativePosition = pageX - this.absoluteLeft;
     //Subtract marker positions from the absolute position.
-    const leftOffset = Math.abs(pageX - minPosition);
-    const rightOffset = Math.abs(pageX - maxPosition);
+    const leftOffset = Math.abs(relativePosition - minPosition);
+    const rightOffset = Math.abs(relativePosition - maxPosition);
     //Set the initial position to the position of the marker with the smallest offset.
     this.initialPosition = leftOffset < rightOffset ? minPosition : maxPosition;
     this.currentMarker = leftOffset < rightOffset ? 'min' : 'max';
@@ -109,17 +112,14 @@ export default class RangeSlider extends PureComponent<Props, State> {
   };
 
   touchesMoved = (
-    event: GestureResponderEvent,
+    _: GestureResponderEvent,
     state: PanResponderGestureState
   ) => {
     const newPosition = this.initialPosition + state.dx;
     this.updatePosition(newPosition);
   };
 
-  panningStopped = (
-    event: GestureResponderEvent,
-    state: PanResponderGestureState
-  ) => {
+  panningStopped = () => {
     const {valueChanged} = this.props;
     const {maxPosition, minPosition} = this.state;
     valueChanged(
@@ -131,7 +131,7 @@ export default class RangeSlider extends PureComponent<Props, State> {
   setMarkersForProps = () => {
     const {max, maxValue, min, minValue} = this.props;
     //MinX is the start x, maxX is x plus width minus the marker size.
-    this.maxX = this.minX + this.trackWidth - this.markerWidth;
+    this.maxX = this.trackWidth - this.markerWidth;
     const minimum = min || minValue!;
     const maximum = max || maxValue!;
     const minPosition = this.valueToPosition(minimum);
@@ -141,7 +141,7 @@ export default class RangeSlider extends PureComponent<Props, State> {
 
   updateBounds = async (event: LayoutChangeEvent) => {
     const {width, x} = event.nativeEvent.layout;
-    this.minX = x;
+    this.absoluteLeft = x;
     this.trackWidth = width;
     this.setMarkersForProps();
   };
