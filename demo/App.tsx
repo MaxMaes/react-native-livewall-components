@@ -26,6 +26,7 @@ import {
   PageControl,
   Pager,
   DatePicker,
+  RangeSlider,
 } from 'react-native-livewall-components';
 
 type Props = {};
@@ -37,6 +38,10 @@ type State = {
   buttonDisabled: boolean;
   showPicker: boolean;
   date: Date;
+  min: number;
+  max: number;
+  low: number;
+  high: number;
 };
 
 const windowWidth = Dimensions.get('window').width;
@@ -57,6 +62,10 @@ export default class App extends Component<Props, State> {
       buttonDisabled: false,
       showPicker: false,
       date: new Date(),
+      min: 20,
+      max: 50,
+      low: 25,
+      high: 45,
     };
   }
 
@@ -86,6 +95,10 @@ export default class App extends Component<Props, State> {
       buttonDisabled,
       showPicker,
       date,
+      min,
+      max,
+      low,
+      high,
     } = this.state;
     return (
       <>
@@ -185,6 +198,8 @@ export default class App extends Component<Props, State> {
                 <Text>{buttonDisabled ? 'Disabled' : 'Enabled'}</Text>
               </Touchable>
 
+              <Divider style={styles.divider} />
+
               <Touchable onPress={() => this.setState({showPicker: true})}>
                 <Text>Choose a date!</Text>
                 <Text>{`Selected date: ${date.toISOString()}`}</Text>
@@ -197,6 +212,29 @@ export default class App extends Component<Props, State> {
                 onDateChanged={date => this.setState({date})}
                 show={showPicker}
               />
+
+              <Divider style={styles.divider} />
+              <RangeSlider
+                maxValue={100}
+                minValue={1}
+                min={min}
+                max={max}
+                step={1}
+                valueChanged={(min, max) => this.setState({min, max})}
+              />
+              <Text>{`Left value: ${min}, right value: ${max}`}</Text>
+              <RangeSlider
+                style={{marginHorizontal: 32}}
+                maxValue={50}
+                minValue={20}
+                min={low}
+                max={high}
+                step={1}
+                valueChanged={(min, max) =>
+                  this.setState({low: min, high: max})
+                }
+              />
+              <Text>{`Left value: ${low}, right value: ${high}`}</Text>
             </View>
           </ScrollView>
         </SafeAreaView>
