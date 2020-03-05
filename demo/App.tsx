@@ -25,6 +25,7 @@ import {
   TextInput,
   PageControl,
   Pager,
+  DatePicker,
 } from 'react-native-livewall-components';
 
 type Props = {};
@@ -34,6 +35,8 @@ type State = {
   pages: ReactNode[];
   currentPage: number;
   buttonDisabled: boolean;
+  showPicker: boolean;
+  date: Date;
 };
 
 const windowWidth = Dimensions.get('window').width;
@@ -52,6 +55,8 @@ export default class App extends Component<Props, State> {
       pages: pagerPages,
       currentPage: 0,
       buttonDisabled: false,
+      showPicker: false,
+      date: new Date(),
     };
   }
 
@@ -74,7 +79,14 @@ export default class App extends Component<Props, State> {
   );
 
   render() {
-    const {textInputText, pages, currentPage, buttonDisabled} = this.state;
+    const {
+      textInputText,
+      pages,
+      currentPage,
+      buttonDisabled,
+      showPicker,
+      date,
+    } = this.state;
     return (
       <>
         <StatusBar barStyle="dark-content" />
@@ -172,6 +184,19 @@ export default class App extends Component<Props, State> {
                 }>
                 <Text>{buttonDisabled ? 'Disabled' : 'Enabled'}</Text>
               </Touchable>
+
+              <Touchable onPress={() => this.setState({showPicker: true})}>
+                <Text>Choose a date!</Text>
+                <Text>{`Selected date: ${date.toISOString()}`}</Text>
+              </Touchable>
+              <DatePicker
+                value={date}
+                key={date?.toISOString()}
+                mode="date"
+                onClose={() => this.setState({showPicker: false})}
+                onDateChanged={date => this.setState({date})}
+                show={showPicker}
+              />
             </View>
           </ScrollView>
         </SafeAreaView>
