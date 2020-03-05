@@ -24,7 +24,8 @@
   "readmeFilename": "README.md",
   "peerDependencies": {
     "react": "^16.9.0",
-    "react-native": ">=0.61.5 <1.0.x"
+    "react-native": ">=0.61.5 <1.0.x",
+    "@react-native-community/datetimepicker": "^2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
