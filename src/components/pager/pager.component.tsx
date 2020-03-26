@@ -50,8 +50,13 @@ export class Pager extends PureComponent<Props, State> {
   onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const {currentPage} = this.state;
     const {layoutMeasurement, contentOffset} = event.nativeEvent;
+    const {containerStyle} = this.props;
+    const flatStyles = StyleSheet.flatten(containerStyle);
     //Calculate the page using the x offset and the page width.
-    const page = Math.round(contentOffset.x / layoutMeasurement.width);
+    const horizontalOffset = (flatStyles.paddingHorizontal as number) * 2;
+    const page = Math.round(
+      contentOffset.x / (layoutMeasurement.width - horizontalOffset)
+    );
     if (page !== currentPage) {
       this.updatePage(page);
     }
