@@ -78,6 +78,24 @@ export default class RangeSlider extends PureComponent<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    //If the min or max updates and the visual position hasn't updated, update it.
+    if (
+      this.props.min &&
+      prevProps.min !== this.props.min &&
+      this.state.minPosition === prevState.minPosition
+    ) {
+      this.setState({minPosition: this.valueToPosition(this.props.min)});
+    }
+    if (
+      this.props.max &&
+      prevProps.max !== this.props.max &&
+      this.state.maxPosition === prevState.maxPosition
+    ) {
+      this.setState({maxPosition: this.valueToPosition(this.props.max)});
+    }
+  }
+
   allow = () => {
     return true;
   };
